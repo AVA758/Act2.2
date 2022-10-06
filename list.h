@@ -388,24 +388,24 @@ template <class T>
 void DoubleLinkedList<T>::insert_after(T lookingFor, T newVal) {
 	Node <T> *p, *q;
 
-	p=head;
-	for (int i=0; i < size; i++){
-		if(p->value == lookingFor && i==(size-1)){
+	p = head;
+	int saltos=0;
+
+	while (p->next != NULL && p->value !=lookingFor){  
+		if(saltos==(size-1)){
 			return push_back(newVal);
+		}  
+		
+		saltos++;
+		p = p->next; 
+		if (saltos >= size){
+			throw NoSuchElement();
 		}
-		else if (p->value == lookingFor){
-			q = new Node<T>(newVal);
-			q->next = p->next;
-			q->previous = p;
-
-			p->next = q;
-			size++;
-
-
-		}
-		p=p->next;
 	}
-	throw NoSuchElement();
+	q = new Node<T>(newVal);
+	q->next = p->next;
+	p->next = q;
+	size++;
 }
 
 
